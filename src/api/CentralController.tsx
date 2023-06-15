@@ -7,6 +7,9 @@ import { Period } from "../models/Period";
 import Product from "../models/Product";
 import { RentType } from "../models/RentType";
 import { CategoryType } from "../models/CategoryType";
+import StorageContext from '../stores/StorageContext';
+import { nominalTypeHack } from 'prop-types';
+import { StorageContextProps } from '../stores/ContextProps';
 
 interface AbstractDictionary<V> {
     [key: number]: V;
@@ -81,6 +84,23 @@ const fetchModels = async (manId: number) : Promise<Model[]> => {
     return data.data;
 }
 
+const fetchProducts = async (manufacturers?: number[], models?: number[], category?: number[],
+                             priceFrom?: number, priceTo?: number, period?: Period,
+                             bargain?: boolean, rentTypes?: RentType[], sort?: number) : Promise<Product[]> => {
+    let filter : string = "";
+    if (manufacturers) {
+        let mans : string = "?Mans="
+        if (models) {
+            for (const modelId of models) {
+                const model = ModelDescr[modelId];
+                if (model) {
+                    // TODO continue
+                }
+            }
+        }
+    }
+}
+
 const getManCategory = (man : Manufacturer) : CategoryType => {
     return man.is_car == "1" ? CategoryType.Car : man.is_spec == "1" ? CategoryType.Special : CategoryType.Motorbike;
 }
@@ -101,17 +121,20 @@ export const getAllManufacturers = (): Manufacturer[] => {
     return Object.values(ManufacturerDescr); 
 };
 
-export const getModels = (manufacturerIds: number[]) : Model[] => {
+export const getModels = (manufacturerIds: number[], storage: StorageContextProps) : Model[] => {
     let models : Model[] = [];
     for (const id of manufacturerIds) {
-        // models = [...models, ...(fetchModels(id).then(e => e))];
+        fetchModels(id).then(newModels => models = [...models, ...newModels]);
     }
-    return [];
+    storage.setModels(models);
+    return models;
 };
-export const getProducts = (manufacturers?: number[], models?: number[], category?: number[],
+export const getProducts = (storage: StorageContextProps, manufacturers?: number[], models?: number[], category?: number[],
               priceFrom?: number, priceTo?: number, period?: Period,
-              bargain?: boolean, rentTypes?: RentType[], sort?: number) : Product[] => { return []; };
-export const getAllProducts = () : Product[] => { return []; };
+              bargain?: boolean, rentTypes?: RentType[], sort?: number) : Product[] => {return []; };
+export const getAllProducts = () : Product[] => {
+
+};
 
 const CentralController = () => {
     // Initialize

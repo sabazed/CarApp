@@ -6,30 +6,30 @@ import Model from "../models/Model";
 import { Period } from "../models/Period";
 import Product from "../models/Product";
 import { RentType } from "../models/RentType";
-import { VehicleType } from "../models/VehicleType";
+import { CategoryType } from "../models/CategoryType";
 
 interface ContextProps {
     children: React.ReactNode
 }
 
 interface CentralContextProps {
-    getCategories: (type: VehicleType) => Category[];
+    getCategories: (type: CategoryType) => Category[];
     getAllCategories: () => Category[];
-    getManufacturers: (type: VehicleType) => Manufacturer[];
+    getManufacturers: (type: CategoryType) => Manufacturer[];
     getAllManufacturers: () => Manufacturer[];
-    getModels: (manufacturerId: number) => Model[];
+    getModels: (manufacturerIds: number[]) => Model[];
     getProducts: (manufacturers?: number[], models?: number[], category?: number[],
                   priceFrom?: number, priceTo?: number, period?: Period,
                   bargain?: boolean, rentTypes?: RentType[], sort?: number) => Product[];
-    getAllProducts: () => Product[];
+    getAllProducts: () => Product[];  
 }
 
 const CentralContext = React.createContext<CentralContextProps>({
-    getCategories: (type: VehicleType) => { return [] },
+    getCategories: (type: CategoryType) => { return [] },
     getAllCategories: () => { return [] },
-    getManufacturers: (type: VehicleType) => { return [] },
+    getManufacturers: (type: CategoryType) => { return [] },
     getAllManufacturers: () => { return [] },
-    getModels: (manufacturerId: number) => { return [] },
+    getModels: (manufacturerIds: number[]) => { return [] },
     getProducts: (manufacturers?: number[], models?: number[], category?: number[],
                   priceFrom?: number, priceTo?: number, period?: Period,
                   bargain?: boolean, rentTypes?: RentType[], sort?: number) => { return [] },

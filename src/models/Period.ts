@@ -1,0 +1,1 @@
+export type Period = "1 hour" | "3 hours" | "6 hours" | "12 hours" | "24 hours";

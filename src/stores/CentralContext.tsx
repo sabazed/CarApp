@@ -4,17 +4,18 @@ import { Period } from "../models/Period";
 import { RentType } from "../models/RentType";
 import { CategoryType } from "../models/CategoryType";
 import { CentralContextProps, ContextProps, StorageContextProps } from "./ContextProps";
+import { BargainType } from "../models/BargainType";
 
 const CentralContext = React.createContext<CentralContextProps>({
     getCategories: (type: CategoryType) => { return [] },
     getAllCategories: () => { return [] },
     getManufacturers: (type: CategoryType) => { return [] },
     getAllManufacturers: () => { return [] },
-    getModels: (manufacturerIds: number[], storage: StorageContextProps) => { return [] },
-    getProducts: (storage: StorageContextProps, manufacturers?: number[], models?: number[], category?: number[],
-                  priceFrom?: number, priceTo?: number, period?: Period,
-                  bargain?: boolean, rentTypes?: RentType[], sort?: number) => { return [] },
-    getAllProducts: () => { return [] }
+    getModels: (manufacturerIds: number[], storage: StorageContextProps) => { return new Promise(() => {}); },
+    getProducts: (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
+                  priceFrom?: number, priceTo?: number, currency?: number, period?: Period,
+                  bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) => { return new Promise(() => {}); },
+    getAllProducts: (storage: StorageContextProps) => { }
 });
 
 export const CentralContextProvider: React.FC<ContextProps> = (props) => {

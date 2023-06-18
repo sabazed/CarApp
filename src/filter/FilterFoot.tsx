@@ -45,7 +45,7 @@ const FilterFoot: React.FC<Prop> = (prop: Prop) => {
                 </span>
                 <input value={prop.maxPrice} onChange={(e) => prop.setMaxPrice(e.target.value)} type="text" placeholder="მდე" className="filter-input w-100 h-40px border-solid-1 border-gray-300 border-radius-8 font-size-13 text-gray-400 px-12px outline-none" />
             </div>
-            <div className="d-flex z-index-9999 bg-white py-16px px-24px border-radius-md-10-bottom position-sticky ">
+            <div className="d-flex z-index-9 bg-white py-16px px-24px border-radius-md-10-bottom position-sticky ">
                 <button onClick={prop.handleSubmit} className="d-flex align-items-center justify-content-center bg-orange text-white font-medium font-size-14 w-100 border-0 border-radius-6 h-32px mb-md-12px mx-4px mx-md-0">მოძებნე</button>
                 <div className="ml-8px tooltip-parent">
                     <button onClick={prop.clear} type="button" className="flex-shrink-0 d-flex align-items-center justify-content-center border-solid-1 border-gray-300 bg-transparent w-32px h-32px border-radius-6">

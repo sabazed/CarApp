@@ -16,9 +16,16 @@ import FilterFoot from './FilterFoot';
 import CentralContext from '../stores/CentralContext';
 import { BargainType } from '../models/BargainType';
 import { RentType } from '../models/RentType';
-import Sort from './sort/Sort';
+import Sort, { Prop } from './sort/Sort';
 
-const Filter: React.FC = () => {
+
+export interface DealType {
+  sorter: string;
+  value: string;
+  type: string;
+}
+
+const Filter: React.FC<Prop> = (props: Prop) => {
   //Data
   const [manArray, setManArray] = useState<Manufacturer[]>([])
   const [modelsArray, setModelsArray] = useState<Model[]>([]);
@@ -51,11 +58,7 @@ const Filter: React.FC = () => {
   const storage = useContext(StorageContext)
   const controller = useContext(CentralContext)
 
-  interface DealType {
-    sorter: string;
-    value: string;
-    type: string;
-  }
+
 
   const options: DealType[] = [
     { sorter: "For Sale", value: "იყიდება", type: "ყიდვა" },
@@ -139,18 +142,24 @@ const Filter: React.FC = () => {
   }
 
   useEffect(() => {
-    setModelsArray(storage.models)
-  }, storage.models)
+    setModelsArray(storage.models);
+  }, [storage.models]);
 
   useEffect(() => {
-    storage.setCurrency(1)
-    setTimeout(() => {
+    if (storage.loadGlobal) {
+      storage.setCurrency(1)
       changeVehicle("0")
       changeCats(0)
-    }, 1000)
-  }, [])
+    }
+  }, [storage.loadGlobal]);
 
-  const handleSubmit = (period?: string, sort?: number) => {
+  const handleSubmit = () => {
+    storage.setProducts([]);
+
+    const period = storage.period;
+    const sort = storage.sort;
+    const page = storage.currPage;
+
     let minValue: number | undefined = parseInt(minPrice, 10);
     let maxValue: number | undefined = parseInt(maxPrice, 10);
 
@@ -181,9 +190,11 @@ const Filter: React.FC = () => {
 
     rents = rents.length > 0 ? rents : undefined
 
-    controller.getProducts(storage, selectedMans.map((man) => Number(man.man_id)), [549, 1491],
+    controller.getProducts(storage, false, selectedMans.map((man) => Number(man.man_id)), selectedModels.map(m => m.model_id),
       selectedCats.map((cat) => Number(cat.category_id)), minValue, maxValue, storage.currency,
-      period, bargain, rents, sort, undefined)
+      period, bargain, rents, sort, page);
+
+    props.handleSubmit();
   }
 
   const clear = () => {
@@ -251,8 +262,7 @@ const Filter: React.FC = () => {
 
   return (
     <>
-      <Sort handleSubmit={handleSubmit} />
-      <div className="filter-bg w-md-250px bg-white border-solid-1 border-gray-350 border-radius-md-8" >
+      <div className="w-md-250px bg-white border-solid-1 border-gray-350 border-radius-md-8" >
         <MainCat
           changeVehicle={changeVehicle}
           carVis={carVis}

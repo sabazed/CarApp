@@ -1,5 +1,5 @@
 import React from "react";
-import { getAllCategories, getAllManufacturers, getAllProducts, getCategories, getManufacturers, getModels, getProducts } from "../api/CentralController";
+import { getAllCategories, getAllManufacturers, getAllProducts, getCategories, getManufacturers, getModels, getNextProducts, getProducts } from "../api/CentralController";
 import { Period } from "../models/Period";
 import { RentType } from "../models/RentType";
 import { CategoryType } from "../models/CategoryType";
@@ -12,10 +12,11 @@ const CentralContext = React.createContext<CentralContextProps>({
     getManufacturers: (type: CategoryType) => { return [] },
     getAllManufacturers: () => { return [] },
     getModels: (manufacturerIds: number[], storage: StorageContextProps) => { return new Promise(() => { }); },
-    getProducts: (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
+    getProducts: (storage: StorageContextProps, nextCall: boolean, manufacturers?: number[], models?: number[], categories?: number[],
         priceFrom?: number, priceTo?: number, currency?: number, period?: string,
         bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) => { return new Promise(() => { }); },
-    getAllProducts: (storage: StorageContextProps) => { }
+    getAllProducts: (storage: StorageContextProps) => { },
+    getNextProducts: (storage: StorageContextProps) => { }
 });
 
 export const CentralContextProvider: React.FC<ContextProps> = (props) => {
@@ -27,7 +28,8 @@ export const CentralContextProvider: React.FC<ContextProps> = (props) => {
         getAllManufacturers: getAllManufacturers,
         getModels: getModels,
         getProducts: getProducts,
-        getAllProducts: getAllProducts
+        getAllProducts: getAllProducts,
+        getNextProducts: getNextProducts
     };
 
     return <CentralContext.Provider value={context}>{props.children}</CentralContext.Provider>;

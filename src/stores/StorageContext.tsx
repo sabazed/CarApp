@@ -6,14 +6,15 @@ import { StorageContextProps, ContextProps } from "./ContextProps";
 const StorageContext = React.createContext<StorageContextProps>({
     models: [],
     products: [],
-    currency: -1,
-    totalVehicles: -1,
-    currPage: -1,
+    currency: 1,
+    totalVehicles: 0,
+    currPage: 1,
     lastPage: -1,
     period: "",
-    sort: -1,
+    sort: 1,
     loadGlobal: false,
     loadLocal: false,
+    lastProducts: '',
     setModels: (models: Model[]) => {},
     setProducts: (products: Product[]) => {},
     setCurrency: (currency: number) => {},
@@ -24,20 +25,22 @@ const StorageContext = React.createContext<StorageContextProps>({
     setSort: (sort: number) => {},
     setLoadGlobal: (loadGlobal: boolean) => {},
     setLoadLocal: (loadLocal: boolean) => {},
+    setLastProducts: (last: string) => {}
 });
 
 export const StorageContextProvider: React.FC<ContextProps> = (props) => {
 
     const [models, setModels] = useState<Model[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-    const [currency, setCurrency] = useState<number>(-1);
-    const [totalVehicles, setTotalVehicles] = useState<number>(-1);
-    const [currPage, setCurrPage] = useState<number>(-1);
+    const [currency, setCurrency] = useState<number>(1);
+    const [totalVehicles, setTotalVehicles] = useState<number>(0);
+    const [currPage, setCurrPage] = useState<number>(1);
     const [lastPage, setLastPage] = useState<number>(-1);
     const [period, setPeriod] = useState<string>('');
-    const [sort, setSort] = useState<number>(-1);
+    const [sort, setSort] = useState<number>(1);
     const [loadGlobal, setLoadGlobal] = useState<boolean>(false);
     const [loadLocal, setLoadLocal] = useState<boolean>(false);
+    const [lastProducts, setLastProducts] = useState<string>('');
 
     const context: StorageContextProps = {
         models: models,
@@ -50,6 +53,7 @@ export const StorageContextProvider: React.FC<ContextProps> = (props) => {
         sort: sort,
         loadGlobal: loadGlobal,
         loadLocal: loadLocal,
+        lastProducts: lastProducts,
         setModels: setModels,
         setProducts: setProducts,
         setCurrency: setCurrency,
@@ -60,6 +64,7 @@ export const StorageContextProvider: React.FC<ContextProps> = (props) => {
         setSort: setSort,
         setLoadGlobal: setLoadGlobal,
         setLoadLocal: setLoadLocal,
+        setLastProducts: setLastProducts
     };
 
     return <StorageContext.Provider value={context}>{props.children}</StorageContext.Provider>;

@@ -56,7 +56,7 @@ const getEngine = (product: Product) => {
 }
 
 const getPrice = (product: Product, currencyId: number) => {
-    const price = currencyId == 3 ? product.price_usd : product.price_value;
+    const price = currencyId == 1 ? product.price_usd : product.price_value;
     return Math.floor(price).toLocaleString();
 }
 
@@ -108,10 +108,12 @@ const Order = (props: OrderProps) => {
     const manufacturer = props.manufacturer;
     const storage = useContext(StorageContext);
     const [price, setPrice] = useState<string>(getPrice(product, storage.currency));
+    const [mobile, setMobile] = useState<boolean>(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const changeCurrency = (e: React.MouseEvent<HTMLElement>) => {
-        if (storage.currency == 1 && e.currentTarget != usdIcon.current?.parentElement
-            || storage.currency == 3 && e.currentTarget != gelIcon.current?.parentElement) {
+        if (storage.currency == 3 && e.currentTarget != usdIcon.current?.parentElement
+            || storage.currency == 1 && e.currentTarget != gelIcon.current?.parentElement) {
             return;
         }
         storage.setCurrency(storage.currency == 1 ? 3 : 1);
@@ -122,13 +124,32 @@ const Order = (props: OrderProps) => {
     
     useEffect(() => {
         setPrice(getPrice(product, storage.currency));
-        const [oldCur, newCur] = storage.currency == 1 ? [gelIcon, usdIcon] : [usdIcon, gelIcon];
+        const [oldCur, newCur] = storage.currency == 3 ? [gelIcon, usdIcon] : [usdIcon, gelIcon];
         oldCur.current?.parentElement?.classList.add('current-currency');
         newCur.current?.parentElement?.classList.remove('current-currency');
     }, [storage.currency]);
 
+    useEffect(() => {
+        const handleResize = () => {
+          setWindowWidth(window.innerWidth);
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
+
+      useEffect(() => setMobile(windowWidth <= 400), [windowWidth]);
+
     return (
         <div className="order">
+            {mobile && 
+            <div className="order-top-mobile">
+                <div className="order-location">თბილისი</div>
+                {getCustoms(product)}
+            </div>}
             <div className="order-pic"><img src={getPhoto(product)}/></div>
             <div className="order-info">
                 <div className="order-header">
@@ -136,10 +157,10 @@ const Order = (props: OrderProps) => {
                         <div className="order-title">{manufacturer?.man_name} {model?.model_name} {product.car_model}</div>
                         <div className="order-year">{product.prod_year} წ</div>
                     </div>
-                    <div>
+                    {!mobile && <div>
                         {getCustoms(product)}
                         <div className="order-location">თბილისი</div>
-                    </div>
+                    </div>}
                 </div>
                 <div className="order-body">
                     <div className="order-stats">
@@ -160,7 +181,7 @@ const Order = (props: OrderProps) => {
                             <div>{getWheel(product)}</div>
                         </div>
                     </div>
-                    <div>
+                    <div className="order-price-wrapper">
                         {(product.price_value > 0) && 
                         <div className="order-price">
                             <div className="price">{price}</div>

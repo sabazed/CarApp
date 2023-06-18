@@ -5,7 +5,9 @@ const Header = () => {
     return (
         <div className='header'>
             <div className='header-inner'>
-                <img src={logo} className="header-logo" alt="logo" />
+                <a href='https://www.myauto.ge/ka/s/'>
+                    <img src={logo} className="header-logo" alt="logo" />
+                </a>
             </div>
         </div>
     )

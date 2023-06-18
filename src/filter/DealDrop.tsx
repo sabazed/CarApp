@@ -1,5 +1,6 @@
 import { RefObject, useRef, useEffect, useState } from "react";
 import Drop from "../models/Drop";
+import { DealType } from "./Filter";
 
 
 const DealDrop: React.FC<Drop> = (prop: Drop) => {
@@ -98,7 +99,7 @@ const DealDrop: React.FC<Drop> = (prop: Drop) => {
             <label className="font-size-12 text-gray-800 font-medium mb-8px mt-20px">გარიგების ტიპი</label>
             <div ref={clickRef}>
                 <div className="dropdown-button d-flex align-items-center justify-content-between position-relative w-100 border-radius-8 border-solid-1 border-gray-300 hover-bg-white hover-border-gray-520 focus-bg-white bg-white undefined border-gray-300">
-                    <div onClick={() => setDropOn(!dropOn)} className="z-index-11111 cursor-pointer w-100 h-44px h-md-40px pl-12px pr-8px  d-flex align-items-center justify-content-between">
+                    <div onClick={() => setDropOn(!dropOn)} className="z-index-9 cursor-pointer w-100 h-44px h-md-40px pl-12px pr-8px  d-flex align-items-center justify-content-between">
                         <span id={prop.type + "id"} className="dropdown-text font-size-13 text-line-1 text-gray-850" ref={ref}>გარიგების ტიპი</span>
                         <span className={"d-flex"}
                             onClick={(e) => stopProp(e)}>
@@ -120,9 +121,9 @@ const DealDrop: React.FC<Drop> = (prop: Drop) => {
                     <div className="checkbox-container overflow-hidden z-index-22222 bg-white border-radius-8 mt-8px py-8px border-solid-1 border-gray-300 box-shadow-md">
                         <div className="scroll-box max-height-306px">
                             {prop.options
-                                .map((option) => {
+                                .map((option: DealType) => {
                                     return <>
-                                        <div className={option.type === "enum" ? "ml-24px border-left border-solid-1 border-gray-200" : ""}>
+                                        <div className={option.type === "enum" ? "ml-24px border-left border-solid-1 border-gray-200" : ""} key={option.value}>
                                             <label className="checkbox-wrapper d-flex position-relative cursor-pointer mb-0 filter-checkbox dropdown-checkbox">
                                                 <input
                                                     className="form-check-input ml-1"

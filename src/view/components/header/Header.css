@@ -1,0 +1,21 @@
+.header {
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    left: 0px;
+    top: 0px;
+    background: #FFFFFF;
+    box-shadow: 0 3px 12px #00000012;
+    display: flex;
+    justify-content: space-around;
+}
+
+.header-inner {
+    width: 1050px;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    height: 50%;
+}

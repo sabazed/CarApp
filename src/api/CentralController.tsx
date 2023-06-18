@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import Category from "../models/Category";
 import Manufacturer from "../models/Manufacturer";
@@ -9,6 +9,7 @@ import { RentType } from "../models/RentType";
 import { CategoryType } from "../models/CategoryType";
 import { ContextProps, StorageContextProps } from '../stores/ContextProps';
 import { BargainType } from '../models/BargainType';
+import StorageContext from '../stores/StorageContext';
 
 interface AbstractDictionary<V> {
     [key: number]: V;
@@ -75,6 +76,7 @@ const fetchManufacturers = async () => {
 }
 
 const fetchModels = async (manId: number) : Promise<Model[]> => {
+    if (ManModelMap[manId] && ManModelMap[manId].length > 0) return ManModelMap[manId];
     const response = await fetch(URLS.MODELS + manId);
     const data = await response.json();
     data.data.forEach((model: Model) => {
@@ -198,9 +200,11 @@ export const getAllManufacturers = (): Manufacturer[] => {
 export const getModels = async (manufacturerIds: number[], storage: StorageContextProps) : Promise<void> => {
     let models : Model[] = [];
     for (const id of manufacturerIds) {
-        await fetchModels(id).then(newModels => models = [...models, ...newModels]);
+        await fetchModels(id).then(newModels => {
+            models = [...models, ...newModels];
+        });
     }
-    storage.setModels(models);
+    storage.setModels([...storage.models, ...models]);
 };
 export const getProducts = async (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
               priceFrom?: number, priceTo?: number, currency?: number, period?: Period,
@@ -214,6 +218,15 @@ export const getProducts = async (storage: StorageContextProps, manufacturers?: 
             total = newProducts.meta.total;
             lastPage = newProducts.meta.last_page
         });
+    
+    const manIds : number[] = [];
+    products.forEach((prod: Product) => {
+        if (!manIds.includes(prod.man_id)) {
+            manIds.push(prod.man_id);
+        }
+    });
+    getModels(manIds, storage);
+
     storage.setProducts(products);
     storage.setTotalVehicles(total);
     storage.setLastPage(lastPage);
@@ -224,10 +237,13 @@ export const getAllProducts = (storage: StorageContextProps) : void => {
 };
 
 const CentralController = (props: ContextProps) => {
+    const storage = useContext(StorageContext);
     // Initialize
     useEffect(() => {
         fetchCategories();
         fetchManufacturers();
+        storage.setLoadGlobal(true);
+       
     }, []);
     return <>{props.children}</>;
 }

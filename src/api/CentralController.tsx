@@ -35,6 +35,7 @@ interface ProductResponse {
         total: number,
         last_page: number
     },
+    url: string
 }
 
 const fetchCategories = async () => {
@@ -91,6 +92,39 @@ const fetchModels = async (manId: number) : Promise<Model[]> => {
         ManModelMap[model.man_id].push(model);
     });
     return data.data;
+}
+
+const fetchProductsNext = async (url: string, period: string, sort: number, page: number): Promise<ProductResponse>  => {
+    if(url.includes('Period=')) {
+        const indexStart = url.indexOf('Period=') + 7;
+        const indexEnd = url.indexOf('&', indexStart);
+        url = url.substring(0, indexStart) + period + url.substring(indexEnd); 
+    }
+    else {
+        url += 'Period=' + period + '&';
+    }
+    
+    if(url.includes('Page=')) {
+        const indexStart = url.indexOf('Page=') + 5;
+        const indexEnd = url.indexOf('&', indexStart);
+        url = url.substring(0, indexStart) + page + url.substring(indexEnd); 
+    }
+    else {
+        url += 'Page=' + page + '&';
+    }
+    
+    if(url.includes('SortOrder=')) {
+        const indexStart = url.indexOf('SortOrder=') + 10;
+        const indexEnd = url.indexOf('&', indexStart);
+        url = url.substring(0, indexStart) + sort + url.substring(indexEnd); 
+    }
+    else {
+        url += 'SortOrder=' + period + '&';
+    }
+
+    const response = await fetch(url);
+    const data = await response.json();
+    return {...data.data, url: url};
 }
 
 const fetchProducts = async (manufacturers?: number[], models?: number[], categories?: number[],
@@ -171,10 +205,9 @@ const fetchProducts = async (manufacturers?: number[], models?: number[], catego
         paramStr = "Page=1";
         filter += paramStr + "&";
     }
-    console.log(URLS.PRODUCTS + filter);
     const response = await fetch(URLS.PRODUCTS + filter);
     const data = await response.json();
-    return data.data;
+    return {...data.data, url: URLS.PRODUCTS + filter};
 }
 
 const getManCategory = (man: Manufacturer): CategoryType => {
@@ -206,18 +239,32 @@ export const getModels = async (manufacturerIds: number[], storage: StorageConte
     }
     storage.setModels([...storage.models, ...models]);
 };
-export const getProducts = async (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
+export const getProducts = async (storage: StorageContextProps, nextCall: boolean, manufacturers?: number[], models?: number[], categories?: number[],
     priceFrom?: number, priceTo?: number, currency?: number, period?: string,
     bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number): Promise<void> => {
     let products: Product[] = [];
     let total: number = -1;
     let lastPage: number = -1;
-    await fetchProducts(manufacturers, models, categories, priceFrom, priceTo, currency, period, bargain, rentTypes, sort, page)
-        .then(newProducts => {
-            products = [...newProducts.items];
-            total = newProducts.meta.total;
-            lastPage = newProducts.meta.last_page
-        });
+    if (nextCall) {
+        await fetchProductsNext(storage.lastProducts, storage.period, storage.sort, storage.currPage)
+            .then(newProducts => {
+                products = [...newProducts.items];
+                total = newProducts.meta.total;
+                lastPage = newProducts.meta.last_page;
+                storage.setLastProducts(newProducts.url);
+                storage.setLoadLocal(newProducts.meta.total == 0);
+    });
+    }
+    else {
+        await fetchProducts(manufacturers, models, categories, priceFrom, priceTo, currency, period, bargain, rentTypes, sort, page)
+            .then(newProducts => {
+                products = [...newProducts.items];
+                total = newProducts.meta.total;
+                lastPage = newProducts.meta.last_page;
+                storage.setLastProducts(newProducts.url);
+                storage.setLoadLocal(newProducts.meta.total == 0);
+            });
+    }
     
     const manIds : number[] = [];
     products.forEach((prod: Product) => {
@@ -233,7 +280,11 @@ export const getProducts = async (storage: StorageContextProps, manufacturers?: 
 };
 
 export const getAllProducts = (storage: StorageContextProps): void => {
-    getProducts(storage);
+    getProducts(storage, false);
+};
+export const getNextProducts = (storage: StorageContextProps): void => {
+    storage.setLoadLocal(false);
+    getProducts(storage, true);
 };
 
 const CentralController = (props: ContextProps) => {
@@ -242,7 +293,9 @@ const CentralController = (props: ContextProps) => {
     useEffect(() => {
         fetchCategories();
         fetchManufacturers();
-        storage.setLoadGlobal(true);
+        setTimeout(() => {
+            storage.setLoadGlobal(true);
+        }, 3500);
        
     }, []);
     return <>{props.children}</>;

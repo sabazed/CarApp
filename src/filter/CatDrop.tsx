@@ -1,6 +1,7 @@
 import { type } from "os";
 import { RefObject, useEffect, useRef, useState } from "react";
 import Drop from "../models/Drop";
+import Category from "../models/Category";
 
 
 
@@ -173,14 +174,14 @@ const CatDrop: React.FC<Drop> = (prop: Drop) => {
                                     <span className="d-flex align-items-center h-32px px-16px font-size-14 text-gray-850">ჩანაწერი არ არის</span> :
                                     <div>
                                         {filteredOpts
-                                            .map((option) => {
+                                            .map((option: Category) => {
                                                 return <>
-                                                    <label className="checkbox-wrapper d-flex position-relative cursor-pointer mb-0 filter-checkbox dropdown-checkbox">
+                                                    <label className="checkbox-wrapper d-flex position-relative cursor-pointer mb-0 filter-checkbox dropdown-checkbox" key={option.category_id} >
                                                         <input
                                                             className="form-check-input ml-1"
                                                             type="checkbox"
                                                             name={option.title}
-                                                            id={option.category_id}
+                                                            id={option.category_id.toString()}
                                                             value={option.category_id}
                                                             onChange={(e) => handleCatChange(Number(e.target.value), ref)}
                                                             checked={checker(option)}

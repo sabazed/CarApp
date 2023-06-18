@@ -1,6 +1,4 @@
 .order {
-    width: calc(100% - 2rem);
-    height: 150px;
     background-color: #fff;
     border-radius: 10px;
     margin: 0.5rem 0;
@@ -176,4 +174,54 @@
 
 .price-high {
     background-color: #ff3b30;
+}
+
+.order-top-mobile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media only screen and (max-width: 380px) {
+    .order {
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+    }
+    .order-pic {
+        display: flex;
+        justify-content: center;
+    }
+    .order-pic > img {
+        width: 330px;
+        height: auto;
+    }
+    .order-customs {
+        margin: 0;
+        padding-bottom: 0.25rem;
+    }
+    .order-header {
+        padding-top: 0.5rem;
+    }
+    .order-info {
+        padding-left: 0;
+    }
+    .order-title {
+        padding-left: 0;
+    }
+    .order-body {
+        padding-left: 1rem;
+        flex-direction: column;
+    }
+    .order-stats {
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 8px;
+        border-color: #f7f8fa;
+    }
+    .order-price-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 0.25rem;
+    }
 }

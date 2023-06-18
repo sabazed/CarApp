@@ -19,3 +19,9 @@
 .header-logo {
     height: 50%;
 }
+
+@media only screen and (max-width: 380px) {
+    .header-inner {
+        width: 350px;
+    }
+  }

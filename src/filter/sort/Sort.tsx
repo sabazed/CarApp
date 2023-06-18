@@ -1,6 +1,7 @@
-import { useRef, useState } from "react"
+import React, { useEffect, useContext, useRef, useState } from "react"
 import "../styles/Filter.css"
 import "../styles/test.css"
+import StorageContext from "../../stores/StorageContext"
 
 interface Period {
     id: string
@@ -12,7 +13,7 @@ interface Sort {
     label: string
 }
 
-interface Prop {
+export interface Prop {
     handleSubmit: Function
 }
 
@@ -23,6 +24,10 @@ const Sort: React.FC<Prop> = (props: Prop) => {
     const [currSort, setCurrSort] = useState<number | undefined>(1);
     const perRef = useRef<HTMLSpanElement>(null);
     const sortRef = useRef<HTMLSpanElement>(null);
+    const storage = useContext(StorageContext);
+    const clickRefPer = useRef<HTMLDivElement>(null)
+    const clickRefSort = useRef<HTMLDivElement>(null)
+
 
     const dropDownStyle = "dropDown-cust d-flex align-items-center h-32px px-16px font-size-14 text-gray-850 text-nowrap hover-text-gray-800 transition-all cursor-pointer"
 
@@ -43,14 +48,35 @@ const Sort: React.FC<Prop> = (props: Prop) => {
         { value: 6, label: "გარბენი ზრდადი" }
     ];
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (clickRefPer.current) {
+                if (!clickRefPer.current.contains(event.target as Node)) {
+                    setDropOnPeriod(false);
+                }
+            }
+
+            if (clickRefSort.current) {
+                if (!clickRefSort.current.contains(event.target as Node)) {
+                    setDropOnSort(false);
+                }
+            }
+        }
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    });
+
     const changePeriod = (period: Period) => {
         if (perRef.current) {
             perRef.current.textContent = period.label
         }
-        setCurrPeriod(period)
-        setDropOnPeriod(false)
-
-        props.handleSubmit(currPeriod?.id, currSort)
+        setCurrPeriod(period);
+        setDropOnPeriod(false);
+        storage.setPeriod(period.id);
     }
 
 
@@ -58,19 +84,17 @@ const Sort: React.FC<Prop> = (props: Prop) => {
         if (sortRef.current) {
             sortRef.current.textContent = period.label
         }
-        setCurrSort(period.value)
-        setDropOnSort(false)
-
-        props.handleSubmit(currPeriod?.id, currSort)
+        setCurrSort(period.value);
+        setDropOnSort(false);
+        storage.setSort(period.value);
     }
 
     return (
         <>
-            <div className="ml-390px max-width-560px d-flex justify-content-between align-items-center my-12px mt-md-0 mb-md-16px px-16px px-md-0">
-                <span className="d-flex font-size-12 font-size-md-14 font-size-m-16 text-gray-800 text-nowrap">260685 განცხადება</span>
+            <div className="d-flex justify-content-between align-items-center px-16px px-md-0">
                 <div className="d-flex align-items-center">
-                    <div className="d-flex align-items-center position-relative ml-4px ml-md-8px undefined">
-                        <div onClick={() => setDropOnPeriod(!dropOnPeriod)} className="d-flex align-items-center border-solid-1 hover-border-gray-850 border-radius-8 bg-transparent cursor-pointer h-36px h-md-40px pl-6px pl-md-12px pr-0 pr-md-8px font-size-12 font-size-md-13 text-gray-650 text-nowrap cursor-pointer border-gray-750">
+                    <div ref={clickRefPer} className="d-flex align-items-center position-relative undefined">
+                        <div onClick={() => { setDropOnPeriod(!dropOnPeriod); setDropOnSort(false) }} className="d-flex align-items-center border-solid-1 hover-border-gray-850 border-radius-8 bg-transparent cursor-pointer h-36px h-md-40px pl-6px pl-md-12px pr-0 pr-md-8px font-size-12 font-size-md-13 text-gray-650 text-nowrap cursor-pointer border-gray-750">
                             <span ref={perRef}> პერიოდი </span>
                             <span className="toggle-arrow d-flex transition-all ml-md-4px ">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={dropOnPeriod ? { transform: 'rotate(180deg)', transition: "0.5s", borderRadius: '50%' } : { transition: "0.5s", borderRadius: '50%' }}>
@@ -100,8 +124,8 @@ const Sort: React.FC<Prop> = (props: Prop) => {
                                 <></>
                         }
                     </div>
-                    <div className="d-flex align-items-center position-relative ml-4px ml-md-8px undefined">
-                        <div onClick={() => setDropOnSort(!dropOnSort)} className="d-flex align-items-center border-solid-1 hover-border-gray-850 border-radius-8 bg-transparent cursor-pointer h-36px h-md-40px pl-6px pl-md-12px pr-0 pr-md-8px font-size-12 font-size-md-13 text-gray-650 text-nowrap cursor-pointer border-gray-750">
+                    <div ref={clickRefSort} className="d-flex align-items-center position-relative ml-4px ml-md-8px undefined">
+                        <div onClick={() => { setDropOnSort(!dropOnSort); setDropOnPeriod(false) }} className="d-flex align-items-center border-solid-1 hover-border-gray-850 border-radius-8 bg-transparent cursor-pointer h-36px h-md-40px pl-6px pl-md-12px pr-0 pr-md-8px font-size-12 font-size-md-13 text-gray-650 text-nowrap cursor-pointer border-gray-750">
                             <span ref={sortRef}> თარიღი კლებადი </span>
                             <span className="toggle-arrow d-flex transition-all ml-md-4px ">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={dropOnSort ? { transform: 'rotate(180deg)', transition: "0.5s", borderRadius: '50%' } : { transition: "0.5s", borderRadius: '50%' }}>
@@ -118,6 +142,7 @@ const Sort: React.FC<Prop> = (props: Prop) => {
                                             return <>
                                                 <span
                                                     id={String(period.value)}
+                                                    key={String(period.value)}
                                                     onClick={() => changeSort(period)}
                                                     className={dropDownStyle}
                                                 >

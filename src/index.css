@@ -48,13 +48,13 @@
 }
 
 body {
-  background: #f2f3f6;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'TBCXRegular';
-  line-height: 1.5;
-  transition: .4s;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: #f2f3f6!important;
+  margin: 0!important;
+  padding: 0!important;
+  box-sizing: border-box!important;
+  font-family: 'TBCXRegular'!important; 
+  line-height: 1.5!important;
+  transition: .4s!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
 }

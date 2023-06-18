@@ -1,7 +1,6 @@
 .main-view {
     width: 780px;
     height: 100%;
-    border: 2px solid black;
 }
 
 .main-view-header, .main-view-filters {
@@ -26,10 +25,30 @@
 .main-view-body {
     display: flex;
     flex-direction: column;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
 }
 
 .main-view-header {
     display: flex;
     align-items: center;
+}
+
+@media only screen and (max-width: 380px) {
+    .main-view {
+        margin: 0 auto;
+        width: 375px;
+        margin-top: 1rem;
+    }
+    .main-view-filters > div {
+        transform: translateX(1rem);
+    }
+    .main-view-total {
+        font-size: 12px;
+        text-align: center;
+        transform: translateX(0.5rem);
+    }
+    .main-view-body, .main-view-header {
+        width: 350px;
+        margin: 0 auto;
+    }
 }

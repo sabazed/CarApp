@@ -1,13 +1,60 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'TBCXRegular';
+  src: url(./view/resources/fonts/TBC\ X\ Regular.woff2);
+}
+@font-face {
+  font-family: 'TBCXMedium';
+  src: url(./view/resources/fonts/TBC\ X\ Medium.woff2);
+}
+@font-face {
+  font-family: 'TBCXLight';
+  src: url(./view/resources/fonts/TBC\ X\ Light.woff2);
+}
+@font-face {
+  font-family: 'TBCXBold';
+  src: url(./view/resources/fonts/TBC\ X\ Bold.woff2);
+}
+@font-face {
+  font-family: 'TBCXBlack';
+  src: url(./view/resources/fonts/TBC\ X\ Black.woff2);
+}
+@font-face {
+  font-family: 'TBCXBlack';
+  src: url(./view/resources/fonts/TBC\ X\ Black.woff2);
+}
+@font-face {
+  font-family: 'Helvetica Neue LT GEO Regular';
+  src: url(./view/resources/fonts/Helvetica\ Neue\ LT\ GEO\ 55\ Roman.woff2);
+}
+@font-face {
+  font-family: 'Helvetica Neue LT GEO Medium';
+  src: url(./view/resources/fonts/Helvetica\ Neue\ LT\ GEO\ 65\ Medium.woff2);
+}
+@font-face {
+  font-family: 'Helvetica Neue LT GEO Bold';
+  src: url(./view/resources/fonts/Helvetica\ Neue\ LT\ GEO\ 75\ Bold.woff2);
+}
+@font-face {
+  font-family: 'Helvetica Neue LT Caps GEO Regular';
+  src: url(./view/resources/fonts/Helvetica\ Neue\ LT\ GEO\ Caps\ 55\ R.woff2);
+}
+@font-face {
+  font-family: 'Helvetica Neue LT Caps GEO Medium';
+  src: url(./view/resources/fonts/Helvetica\ Neue\ LT\ GEO\ Caps\ 65\ Medium.woff2);
+}
+@font-face {
+  font-family: 'Helvetica Neue LT Caps GEO Bold';
+  src: url(./view/resources/fonts/Helvetica\ Neue\ LT\ GEO\ Caps\ 75\ Bold.woff2);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background: #f2f3f6;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'TBCXRegular';
+  line-height: 1.5;
+  transition: .4s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

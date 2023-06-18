@@ -1,0 +1,58 @@
+.App {
+	text-align: center;
+}
+
+.main-body {
+    position: absolute;
+	width: 1050px;
+	height: calc(100% - 80px);
+	left: calc((100% - 1050px) / 2);
+    top: 80px;
+}
+
+.main-body-path {
+	text-align: start;
+	margin: 146px 0 1rem 0;
+	font-size: 12px;
+	color: #6f7383;
+	cursor: pointer;
+}
+
+.main-body-path > img {
+	padding: 0 0.25rem;
+}
+
+.main-body-view {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.load-global {
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	background: #f2f3f6;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.load-local {
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	background: #f2f3f6;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.load-icon {
+	height: 50%;
+	width: 50%;
+	fill: rgb(253, 65, 0);
+}

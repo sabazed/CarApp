@@ -1,0 +1,35 @@
+.main-view {
+    width: 780px;
+    height: 100%;
+    border: 2px solid black;
+}
+
+.main-view-header, .main-view-filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.main-view-filters > * {
+    padding: 0 0.25rem;
+}
+
+.main-view-total {
+    font-size: 16px;
+    color: #272a37;
+}
+
+.main-view-filter {
+    border-radius: 10px;
+}
+
+.main-view-body {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.main-view-header {
+    display: flex;
+    align-items: center;
+}

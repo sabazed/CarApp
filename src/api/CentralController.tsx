@@ -12,25 +12,25 @@ import { BargainType } from '../models/BargainType';
 
 interface AbstractDictionary<V> {
     [key: number]: V;
-} 
+}
 
 const URLS = {
     MANUFACTURERS: "https://static.my.ge/myauto/js/mans.json",
     MODELS: "https://api2.myauto.ge/en/getManModels?man_id=",
-    CATEGORIES: "https://api2.myauto.ge/en/cats/get",
+    CATEGORIES: "https://api2.myauto.ge/ka/cats/get",
     PRODUCTS: "https://api2.myauto.ge/en/products"
 }
 
-const CategoryDescr : AbstractDictionary<Category> = {}; 
-const ModelDescr : AbstractDictionary<Model> = {}; 
-const ManufacturerDescr : AbstractDictionary<Manufacturer> = {}; 
-const ManModelMap : AbstractDictionary<Model[]> = {}; 
-const TypeManMap : AbstractDictionary<Manufacturer[]> = {};
-const TypeCatMap : AbstractDictionary<Category[]> = {};
+const CategoryDescr: AbstractDictionary<Category> = {};
+const ModelDescr: AbstractDictionary<Model> = {};
+const ManufacturerDescr: AbstractDictionary<Manufacturer> = {};
+const ManModelMap: AbstractDictionary<Model[]> = {};
+const TypeManMap: AbstractDictionary<Manufacturer[]> = {};
+const TypeCatMap: AbstractDictionary<Category[]> = {};
 
 interface ProductResponse {
     items: Product[],
-    meta: { 
+    meta: {
         total: number,
         last_page: number
     },
@@ -56,7 +56,7 @@ const fetchManufacturers = async () => {
     const response = await fetch(URLS.MANUFACTURERS);
     const data = await response.json();
     data.forEach((man: Manufacturer) => {
-        const id : number = Number(man.man_id);
+        const id: number = Number(man.man_id);
         if (!(ManufacturerDescr[id])) {
             // Add to manufacturers general list
             ManufacturerDescr[id] = man;
@@ -74,7 +74,7 @@ const fetchManufacturers = async () => {
     });
 }
 
-const fetchModels = async (manId: number) : Promise<Model[]> => {
+const fetchModels = async (manId: number): Promise<Model[]> => {
     const response = await fetch(URLS.MODELS + manId);
     const data = await response.json();
     data.data.forEach((model: Model) => {
@@ -92,13 +92,13 @@ const fetchModels = async (manId: number) : Promise<Model[]> => {
 }
 
 const fetchProducts = async (manufacturers?: number[], models?: number[], categories?: number[],
-                             priceFrom?: number, priceTo?: number, currency?: number, period?: Period,
-                             bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) : Promise<ProductResponse> => {
-    let filter : string = "?";
-    let paramStr : string = "";
+    priceFrom?: number, priceTo?: number, currency?: number, period?: string,
+    bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number): Promise<ProductResponse> => {
+    let filter: string = "?";
+    let paramStr: string = "";
     if (manufacturers) {
         paramStr = "Mans="
-        let paramMap : { [key: number]: number[] } = {};
+        let paramMap: { [key: number]: number[] } = {};
         for (const manId of manufacturers) {
             paramMap[manId] = [];
             if (!ManModelMap[manId] || ManModelMap[manId].length == 0) {
@@ -120,7 +120,7 @@ const fetchProducts = async (manufacturers?: number[], models?: number[], catego
     }
 
     if (categories) {
-        paramStr = `Cats=${categories.join('.')}` 
+        paramStr = `Cats=${categories.join('.')}`
         filter += paramStr + "&";
     }
 
@@ -139,7 +139,7 @@ const fetchProducts = async (manufacturers?: number[], models?: number[], catego
     }
 
     if (period) {
-        paramStr = `Period=${period.split(' ')[0]}h`
+        paramStr = `Period=${period}`
         filter += paramStr + "&";
     }
 
@@ -163,11 +163,11 @@ const fetchProducts = async (manufacturers?: number[], models?: number[], catego
 
     if (page) {
         paramStr = "Page=" + page;
-        filter += paramStr + "&";       
+        filter += paramStr + "&";
     }
     else {
         paramStr = "Page=1";
-        filter += paramStr + "&";   
+        filter += paramStr + "&";
     }
     console.log(URLS.PRODUCTS + filter);
     const response = await fetch(URLS.PRODUCTS + filter);
@@ -175,39 +175,39 @@ const fetchProducts = async (manufacturers?: number[], models?: number[], catego
     return data.data;
 }
 
-const getManCategory = (man : Manufacturer) : CategoryType => {
+const getManCategory = (man: Manufacturer): CategoryType => {
     return man.is_car == "1" ? CategoryType.Car : man.is_spec == "1" ? CategoryType.Special : CategoryType.Motorbike;
 }
 
-export const getCategories = (type: CategoryType) : Category[] => { 
-   return getAllCategories().filter((cat: Category) => cat.category_type == type); 
+export const getCategories = (type: CategoryType): Category[] => {
+    return getAllCategories().filter((cat: Category) => cat.category_type == type);
 };
 
-export const getAllCategories = () : Category[] => { 
-    return Object.values(CategoryDescr); 
+export const getAllCategories = (): Category[] => {
+    return Object.values(CategoryDescr);
 };
 
-export const getManufacturers = (type: CategoryType) : Manufacturer[] => {
-     return getAllManufacturers().filter((man : Manufacturer) => getManCategory(man) == type); 
+export const getManufacturers = (type: CategoryType): Manufacturer[] => {
+    return getAllManufacturers().filter((man: Manufacturer) => getManCategory(man) == type);
 };
 
 export const getAllManufacturers = (): Manufacturer[] => {
-    return Object.values(ManufacturerDescr); 
+    return Object.values(ManufacturerDescr);
 };
 
-export const getModels = async (manufacturerIds: number[], storage: StorageContextProps) : Promise<void> => {
-    let models : Model[] = [];
+export const getModels = async (manufacturerIds: number[], storage: StorageContextProps): Promise<void> => {
+    let models: Model[] = [];
     for (const id of manufacturerIds) {
         await fetchModels(id).then(newModels => models = [...models, ...newModels]);
     }
     storage.setModels(models);
 };
 export const getProducts = async (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
-              priceFrom?: number, priceTo?: number, currency?: number, period?: Period,
-              bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) : Promise<void> => {
-    let products : Product[] = [];
-    let total : number = -1;
-    let lastPage : number = -1;
+    priceFrom?: number, priceTo?: number, currency?: number, period?: string,
+    bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number): Promise<void> => {
+    let products: Product[] = [];
+    let total: number = -1;
+    let lastPage: number = -1;
     await fetchProducts(manufacturers, models, categories, priceFrom, priceTo, currency, period, bargain, rentTypes, sort, page)
         .then(newProducts => {
             products = [...newProducts.items];
@@ -219,8 +219,8 @@ export const getProducts = async (storage: StorageContextProps, manufacturers?: 
     storage.setLastPage(lastPage);
 };
 
-export const getAllProducts = (storage: StorageContextProps) : void => {
-   getProducts(storage);
+export const getAllProducts = (storage: StorageContextProps): void => {
+    getProducts(storage);
 };
 
 const CentralController = (props: ContextProps) => {

@@ -5,15 +5,15 @@ import { StorageContextProps, ContextProps } from "./ContextProps";
 
 const StorageContext = React.createContext<StorageContextProps>({
     models: [],
-    products: [], 
+    products: [],
     currency: -1,
     totalVehicles: -1,
     lastPage: -1,
-    setModels: (models: Model[]) => {},
-    setProducts: (products: Product[]) => {},
-    setCurrency: (currency: number) => {},
-    setTotalVehicles: (totalVehicles: number) => {},
-    setLastPage: (lastPage: number) => {}
+    setModels: (models: Model[]) => { },
+    setProducts: (products: Product[]) => { },
+    setCurrency: (currency: number) => { },
+    setTotalVehicles: (totalVehicles: number) => { },
+    setLastPage: (lastPage: number) => { }
 });
 
 export const StorageContextProvider: React.FC<ContextProps> = (props) => {
@@ -26,7 +26,7 @@ export const StorageContextProvider: React.FC<ContextProps> = (props) => {
 
     const context: StorageContextProps = {
         models: models,
-        products: products, 
+        products: products,
         currency: currency,
         totalVehicles: totalVehicles,
         lastPage: lastPage,

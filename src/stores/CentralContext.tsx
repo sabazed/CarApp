@@ -11,10 +11,10 @@ const CentralContext = React.createContext<CentralContextProps>({
     getAllCategories: () => { return [] },
     getManufacturers: (type: CategoryType) => { return [] },
     getAllManufacturers: () => { return [] },
-    getModels: (manufacturerIds: number[], storage: StorageContextProps) => { return new Promise(() => {}); },
+    getModels: (manufacturerIds: number[], storage: StorageContextProps) => { return new Promise(() => { }); },
     getProducts: (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
-                  priceFrom?: number, priceTo?: number, currency?: number, period?: Period,
-                  bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) => { return new Promise(() => {}); },
+        priceFrom?: number, priceTo?: number, currency?: number, period?: string,
+        bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) => { return new Promise(() => { }); },
     getAllProducts: (storage: StorageContextProps) => { }
 });
 

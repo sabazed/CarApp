@@ -7,6 +7,7 @@ import logo from './view/resources/imgs/arrw-sml.svg';
 import FilterMenu from './view/components/feed/filter-menu/FilterMenu';
 import MainView from './view/components/feed/main-view/MainView';
 import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import { ReactComponent as LoadIcon } from './view/resources/imgs/pulse-rings-3.svg';
 
@@ -35,7 +36,6 @@ function App() {
 				<div><MainView /></div>
 			</div>
 		</div>
-    </div>
   );
 }
 

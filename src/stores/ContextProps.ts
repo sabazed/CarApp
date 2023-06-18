@@ -18,7 +18,7 @@ export interface CentralContextProps {
     getAllManufacturers: () => Manufacturer[];
     getModels: (manufacturerIds: number[], storage: StorageContextProps) => Promise<void>;
     getProducts: (storage: StorageContextProps, manufacturers?: number[], models?: number[], categories?: number[],
-                  priceFrom?: number, priceTo?: number, currency?: number, period?: Period,
+                  priceFrom?: number, priceTo?: number, currency?: number, period?: string,
                   bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number) => Promise<void>;
     getAllProducts: (storage: StorageContextProps) => void;  
 }

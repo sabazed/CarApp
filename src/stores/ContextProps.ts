@@ -28,10 +28,20 @@ export interface StorageContextProps {
     products: Product[]; 
     currency: number;
     totalVehicles: number;
+    currPage: number;
     lastPage: number;
+    period: string;
+    sort: number;
+    loadGlobal: boolean;
+    loadLocal: boolean;
     setModels: (models: Model[]) => void;
     setProducts: (products: Product[]) => void;
     setCurrency: (currency: number) => void;
     setTotalVehicles: (totalVehicles: number) => void;
+    setCurrPage: (currPage: number) => void;
     setLastPage: (lastPage: number) => void;
+    setPeriod: (period: string) => void;
+    setSort: (sort: number) => void;
+    setLoadGlobal: (loadGlobal: boolean) => void;
+    setLoadLocal: (loadLocal: boolean) => void;
 }

@@ -17,6 +17,7 @@ import favorite from '../../../../resources/imgs/favorite.svg';
 import './Order.css';
 import { useContext, useEffect, useRef, useState } from "react";
 import StorageContext from "../../../../../stores/StorageContext";
+import Locations from "../../../../../models/Locations";
 
 const fuelTypes : { [key: number]: string } = {
     2: 'ბენზინი',
@@ -102,6 +103,10 @@ const getCustoms = (product: Product) => {
         : <div className="order-customs">განბაჟება</div>
 }
 
+const getLocation = (product: Product) => {
+    return Locations[product.location_id];
+}
+
 const Order = (props: OrderProps) => {
     const product = props.product;
     const model = props.model;
@@ -150,16 +155,16 @@ const Order = (props: OrderProps) => {
                 <div className="order-location">თბილისი</div>
                 {getCustoms(product)}
             </div>}
-            <div className="order-pic"><img src={getPhoto(product)}/></div>
+            <a href={'https://www.myauto.ge/ka/pr/' + props.product.car_id} className="order-url"><div className="order-pic"><img src={getPhoto(product)}/></div></a>
             <div className="order-info">
                 <div className="order-header">
                     <div>                    
-                        <div className="order-title">{manufacturer?.man_name} {model?.model_name} {product.car_model}</div>
+                        <a href={'https://www.myauto.ge/ka/pr/' + props.product.car_id} className="order-url"><div className="order-title">{manufacturer?.man_name} {model?.model_name} {product.car_model}</div></a>
                         <div className="order-year">{product.prod_year} წ</div>
                     </div>
                     {!mobile && <div>
                         {getCustoms(product)}
-                        <div className="order-location">თბილისი</div>
+                        <div className="order-location">{getLocation(product)}</div>
                     </div>}
                 </div>
                 <div className="order-body">

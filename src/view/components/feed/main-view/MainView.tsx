@@ -7,6 +7,7 @@ import Order from './order/Order';
 import Model from '../../../../models/Model';
 
 import { ReactComponent as LoadIcon } from '../../../../view/resources/imgs/pulse-rings-3.svg';
+import { ReactComponent as NotFound } from '../../../../view/resources/imgs/not-found.svg';
 import './MainView.css';
 import Sort from '../../../../filter/sort/Sort';
 import PageLayout from '../../../PageLayout';
@@ -26,14 +27,6 @@ const MainView = () => {
     const [currPage, setCurrPage] = useState<Product[]>([]);
 
     useEffect(() => setCurrPage(storage.products), [storage.products]);
-    useEffect(() => { 
-        if (currPage.length == 0) {
-            storage.setLoadLocal(false)
-        }
-        else {
-            setTimeout(() => storage.setLoadLocal(currPage.length != 0), 6000) 
-        }
-    }, [currPage]);
 
     return (
         <div className="main-view">
@@ -44,12 +37,18 @@ const MainView = () => {
                 </div>
             </div>
             {storage.loadLocal && <div className='main-view-body'>
-                {currPage.map((product: Product) => 
+                {currPage.length > 0 && currPage.map((product: Product) => 
                     <Order key={product.car_id} product={product} model={getModel(product, storage)} manufacturer={getManufacturer(product, central)}/>)
                 }
+                {currPage.length < 1 && 
+                <div className='not-found-screen'>
+                    <div><NotFound className='not-found-icon'/></div>
+                    <div className='not-found-title'>განცხადებები ვერ მოიძებნა</div>
+                    <div className='not-found-desc'>შენი ძებნის პარამეტრების მიხედვით განცხადებები ვერ მოიძებნა. შეცვალე ან გამოიწერე პარამეტრები და მიიღე შეტყობინება ახალი განცხადებების განთავსების შემთხვევაში</div>
+                </div>}
             </div>}
             {!storage.loadLocal && <div className='load-local'><LoadIcon className='load-icon'/></div>}
-            <div className='main-view-footer'><PageLayout handleSubmit={() => {storage.setProducts([]); central.getNextProducts(storage)}} /></div>
+            {storage.totalVehicles >= 16 && <div className='main-view-footer'><PageLayout handleSubmit={() => {storage.setProducts([]); central.getNextProducts(storage)}} /></div>}
         </div>
     );
 }

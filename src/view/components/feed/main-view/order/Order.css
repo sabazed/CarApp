@@ -38,6 +38,11 @@
     color: #272a37;
 }
 
+.order-url {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .order-year {
     color: #8996ae;
 }

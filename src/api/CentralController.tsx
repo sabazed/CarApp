@@ -237,11 +237,14 @@ export const getModels = async (manufacturerIds: number[], storage: StorageConte
             models = [...models, ...newModels];
         });
     }
-    storage.setModels([...storage.models, ...models]);
+    const tempIds = storage.models.map(model => model.model_id);
+    storage.setModels([...storage.models, ...(models.filter(model => !tempIds.includes(model.model_id)))]);
 };
 export const getProducts = async (storage: StorageContextProps, nextCall: boolean, manufacturers?: number[], models?: number[], categories?: number[],
     priceFrom?: number, priceTo?: number, currency?: number, period?: string,
     bargain?: BargainType, rentTypes?: RentType[], sort?: number, page?: number): Promise<void> => {
+    window.scrollTo(0, 0);
+    storage.setLoadLocal(false);
     let products: Product[] = [];
     let total: number = -1;
     let lastPage: number = -1;
@@ -252,7 +255,7 @@ export const getProducts = async (storage: StorageContextProps, nextCall: boolea
                 total = newProducts.meta.total;
                 lastPage = newProducts.meta.last_page;
                 storage.setLastProducts(newProducts.url);
-                storage.setLoadLocal(newProducts.meta.total == 0);
+                storage.setLoadLocal(true);
     });
     }
     else {
@@ -262,7 +265,7 @@ export const getProducts = async (storage: StorageContextProps, nextCall: boolea
                 total = newProducts.meta.total;
                 lastPage = newProducts.meta.last_page;
                 storage.setLastProducts(newProducts.url);
-                storage.setLoadLocal(newProducts.meta.total == 0);
+                storage.setLoadLocal(true);
             });
     }
     
@@ -283,7 +286,6 @@ export const getAllProducts = (storage: StorageContextProps): void => {
     getProducts(storage, false);
 };
 export const getNextProducts = (storage: StorageContextProps): void => {
-    storage.setLoadLocal(false);
     getProducts(storage, true);
 };
 

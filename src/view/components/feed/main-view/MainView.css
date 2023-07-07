@@ -33,6 +33,33 @@
     align-items: center;
 }
 
+.not-found-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.not-found-icon {
+    margin: 32px 0;
+    width: 80px;
+    height: 76.45px;
+}
+
+.not-found-title {
+    font-family: 'TBCXBold';
+    font-size: 18px;
+    color: #272a37;
+    margin-bottom: 16px;
+}
+
+.not-found-desc {
+    font-size: 14px;
+    color: #272a37;
+    margin-bottom: 32px;
+}
+
 @media only screen and (max-width: 380px) {
     .main-view {
         margin: 0 auto;

@@ -28,14 +28,17 @@ function App() {
   return (
       <div className="App">
          {!storage.loadGlobal && <div className='load-global'><LoadIcon className='load-icon'/></div>}
-         <Header />
-         <div className='main-body'>
-            <div className='main-body-path'>მთავარი <img src={logo} className="header-logo" alt="logo" /></div>
-            <div className='main-body-view'>
-               <div><FilterMenu /></div>
-               <div><MainView /></div>
+         {storage.loadGlobal && 
+         <>
+            <Header />
+            <div className='main-body'>
+               <div className='main-body-path'>მთავარი <img src={logo} className="header-logo" alt="logo" /></div>
+               <div className='main-body-view'>
+                  <div><FilterMenu /></div>
+                  <div><MainView /></div>
+               </div>
             </div>
-         </div>
+         </>}
       </div>   
   );
 }

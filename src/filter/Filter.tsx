@@ -155,10 +155,11 @@ const Filter: React.FC<Prop> = (props: Prop) => {
 
   const handleSubmit = () => {
     storage.setProducts([]);
+    setTimeout(() => {storage.setCurrPage(1);}, 1000);
 
     const period = storage.period;
     const sort = storage.sort;
-    const page = storage.currPage;
+    const page = 1;
 
     let minValue: number | undefined = parseInt(minPrice, 10);
     let maxValue: number | undefined = parseInt(maxPrice, 10);

@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5a4fc67a.css",
+    "main.js": "/static/js/main.7fba1f9f.js",
+    "static/media/Helvetica Neue LT GEO Caps 55 R.woff2": "/static/media/Helvetica Neue LT GEO Caps 55 R.6c113eea6c16dad806af.woff2",
+    "static/media/Helvetica Neue LT GEO Caps 75 Bold.woff2": "/static/media/Helvetica Neue LT GEO Caps 75 Bold.8d02aff854feea7893ee.woff2",
+    "static/media/Helvetica Neue LT GEO Caps 65 Medium.woff2": "/static/media/Helvetica Neue LT GEO Caps 65 Medium.c1fab309f016d8f350db.woff2",
+    "static/media/TBC X Regular.woff2": "/static/media/TBC X Regular.02ebc0409b5806d56a2e.woff2",
+    "static/media/TBC X Bold.woff2": "/static/media/TBC X Bold.27bb82de15ed4e71dfed.woff2",
+    "static/media/TBC X Light.woff2": "/static/media/TBC X Light.81192879833bda1c573f.woff2",
+    "static/media/TBC X Medium.woff2": "/static/media/TBC X Medium.339920a9f4f596fdc4e8.woff2",
+    "static/media/TBC X Black.woff2": "/static/media/TBC X Black.99743f90906f0b5c67b6.woff2",
+    "static/media/Helvetica Neue LT GEO 75 Bold.woff2": "/static/media/Helvetica Neue LT GEO 75 Bold.63bb1575dae1cd2a5276.woff2",
+    "static/media/Helvetica Neue LT GEO 65 Medium.woff2": "/static/media/Helvetica Neue LT GEO 65 Medium.f00f863e77a72b340a50.woff2",
+    "static/media/Helvetica Neue LT GEO 55 Roman.woff2": "/static/media/Helvetica Neue LT GEO 55 Roman.0e16ce584593b72c73cc.woff2",
+    "static/media/logo.svg": "/static/media/logo.422286443755613d8f11b1c7d57401ec.svg",
+    "static/media/hide.svg": "/static/media/hide.77d432fb73e237c6fbbfef03610254fb.svg",
+    "static/media/not-found.svg": "/static/media/not-found.f851ff8ebb27ea23709b2b7f75b28c30.svg",
+    "static/media/chat.svg": "/static/media/chat.4e885852d986179082e49eae3dfc1c7d.svg",
+    "static/media/usd.svg": "/static/media/usd.49eae9656365171ac6973d60a33962bf.svg",
+    "static/media/favorite.svg": "/static/media/favorite.bc9a5b3a609aa81b7c0e2906c0134bcf.svg",
+    "static/media/engine-icon.svg": "/static/media/engine-icon.2140205f47213382bf6171c2594ae937.svg",
+    "static/media/pulse-rings-3.svg": "/static/media/pulse-rings-3.7ed82b6e4d92c76877f40201b60c0fee.svg",
+    "static/media/gel.svg": "/static/media/gel.fef823410b71bc00e9ff80099f6baa87.svg",
+    "static/media/transmission-icon.svg": "/static/media/transmission-icon.b96d22844f48cf1122b0d72bd730bc18.svg",
+    "index.html": "/index.html",
+    "static/media/tachometer-icon.svg": "/static/media/tachometer-icon.cc1762d4cb9f14618e60215a39a7014f.svg",
+    "static/media/filter.svg": "/static/media/filter.ed404e22467180b1c61d98865e304f46.svg",
+    "static/media/check.svg": "/static/media/check.0c735c636a7b32a4edb3270a26a121e0.svg",
+    "static/media/steering-wheel-icon.svg": "/static/media/steering-wheel-icon.70707cfa65b6fd5b903480a80524c401.svg",
+    "static/media/arrw-sml.svg": "/static/media/arrw-sml.3ad017354592329600c0d21d75d1da01.svg",
+    "main.5a4fc67a.css.map": "/static/css/main.5a4fc67a.css.map",
+    "main.7fba1f9f.js.map": "/static/js/main.7fba1f9f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5a4fc67a.css",
+    "static/js/main.7fba1f9f.js"
+  ]
+}
